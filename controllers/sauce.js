@@ -2,16 +2,22 @@ const Sauce = require('../models/sauce');
 
 exports.createSauce = (req, res, next) => {
   const sauce = new Sauce({
-    title: req.body.title,
+    userId: req.body.userId,
+    name: req.body.title,
+    manufacturer: req.body.manufacturer,
     description: req.body.description,
+    mainPepper: req.body.mainPepper,
     imageUrl: req.body.imageUrl,
-    price: req.body.price,
-    userId: req.body.userId
+    heat: req.body.heat,
+    likes: 0,
+    dislikes: 0,
+    usersLiked: 0,
+    usersDisliked: 0
   });
   sauce.save().then(
     () => {
       res.status(201).json({
-        message: 'Post saved successfully!'
+        message: 'Sauce saved successfully!'
       });
     }
   ).catch(
@@ -41,12 +47,17 @@ exports.getOneSauce = (req, res, next) => {
 
 exports.modifySauce = (req, res, next) => {
   const sauce = new Sauce({
-    _id: req.params.id,
-    title: req.body.title,
+    userId: req.body.userId,
+    name: req.body.title,
+    manufacturer: req.body.manufacturer,
     description: req.body.description,
+    mainPepper: req.body.mainPepper,
     imageUrl: req.body.imageUrl,
-    price: req.body.price,
-    userId: req.body.userId
+    heat: req.body.heat,
+    likes: req.body.likes,
+    dislikes: req.body.dislikes,
+    usersLiked: req.body.usersLiked,
+    usersDisliked: req.body.usersDisliked
   });
   Sauce.updateOne({_id: req.params.id}, sauce).then(
     () => {
