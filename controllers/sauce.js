@@ -10,8 +10,8 @@ exports.createSauce = (req, res, next) => {
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
     likes: 0,
     dislikes: 0,
-    usersLiked: 0,
-    usersDisliked: 0
+    usersLiked: [],
+    usersDisliked: []
   });
   sauce.save().then(
     () => {
@@ -80,4 +80,49 @@ exports.getAllSauces = (req, res, next) => {
       });
     }
   );
+};
+
+exports.modifyLikeSauce = (req, res, next) => {
+  Sauce.findOne({ _id: req.params.id })
+  .then(sauce => {
+    switch(req.body.like) {
+      case -1: 
+        if(sauce.usersDisliked.indexOf(req.body.userId) === -1){
+          sauce.usersDisliked.push(req.body.userId);
+        } else {
+          sauce.usersDisliked.splice(sauce.usersDisliked.indexOf(req.body.userId), 1);
+        }
+        break;
+      case 1:
+        if(sauce.usersLiked.indexOf(req.body.userId) === -1){
+          sauce.usersLiked.push(req.body.userId);
+        } else {
+          sauce.usersLiked.splice(sauce.usersLiked.indexOf(req.body.userId), 1);
+        }
+        break;
+      case 0:
+        if(sauce.usersLiked.indexOf(req.body.userId) > -1){
+          sauce.usersLiked.splice(sauce.usersLiked.indexOf(req.body.userId), 1);
+        }else if(sauce.usersDisliked.indexOf(req.body.userId) > -1){
+          sauce.usersDisliked.splice(sauce.usersDisliked.indexOf(req.body.userId), 1); 
+        }
+        break;
+    }
+    
+    sauce.likes = sauce.usersLiked.length;
+    sauce.dislikes = sauce.usersDisliked.length;
+    sauce.save().then(
+      () => {
+        res.status(201).json({
+          message: 'Likes updated successfully!'
+        });
+      }
+    ).catch(
+      (error) => {
+        res.status(400).json({
+          error: error
+        });
+      }
+    );
+   })  
 };
