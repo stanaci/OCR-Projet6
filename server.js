@@ -5,10 +5,6 @@ const app = require('./app');
 var helmet = require('helmet');
 app.use(helmet());
 
-// Node Rate Limiter Flexible
-const rateLimiterRedisMiddleware = require('./middleware/rateLimiterRedis');
-app.use(rateLimiterRedisMiddleware);
-
 const normalizePort = val => {
   const port = parseInt(val, 10);
 
