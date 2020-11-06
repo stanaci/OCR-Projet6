@@ -1,6 +1,10 @@
 const http = require('http');
 const app = require('./app');
 
+// Helmet
+var helmet = require('helmet');
+app.use(helmet());
+
 const normalizePort = val => {
   const port = parseInt(val, 10);
 
