@@ -29,7 +29,6 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 app.use(xss());
-app.listen(8080);
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
