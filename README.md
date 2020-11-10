@@ -1,5 +1,4 @@
 # OCR-Projet6
-===============
 
 This is the Back-end for So Pekocko
 
