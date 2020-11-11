@@ -3,10 +3,10 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const emailValidator = require("email-validator");
 
-const passwordValidator = require('password-validator');
+let passwordValidator = require('password-validator');
  
 // Create a schema
-const schemaPwd = new passwordValidator();
+let schemaPwd = new passwordValidator();
  
 // Add properties to it
 schemaPwd
